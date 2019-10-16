@@ -7,6 +7,7 @@
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
 body { margin:0; padding:0; }
 #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -60,10 +61,12 @@ function openInJOSM() {
     $.ajax(josmUrl, function() {});
 }
 
+
 // When a click event occurs on a feature in the geojson-overlay-point layer, open a popup at the
 // location of the feature, with description HTML from its properties.
 map.on('click', 'geojson-overlay-point', function (e) {
 var coordinates = e.features[0].geometry.coordinates.slice();
+var description = e.features[0].properties.description;
 
 
 // Ensure that if the map is zoomed out such that multiple
@@ -75,10 +78,10 @@ coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
  
 new mapboxgl.Popup()
 .setLngLat(coordinates)
+.setHTML('<p>Click to open in <a href=\'http://127.0.0.1:8111/load_and_zoom?left=/\ target=\"_blank\" title=\"Opens in a new window\">JOSM</a>, </p>')
 .addTo(map);
 openInJOSM();
 });
-
 
 // Change the cursor to a pointer when the mouse is over the geojson-overlay-point layer.
 map.on('mouseenter', 'geojson-overlay-point', function () {
