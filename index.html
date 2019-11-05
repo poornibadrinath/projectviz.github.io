@@ -11,10 +11,66 @@
 <style>
 body { margin:0; padding:0; }
 #map { position:absolute; top:0; bottom:0; width:100%; }
+#dialog {
+    display:none;
+}
+.myTarget {
+    font-weight:bold;
+    font-style:italic;
+    color:red;
+
+}
+
+#menu {
+background: #fff;
+position: absolute;
+z-index: 1;
+top: 10px;
+right: 10px;
+border-radius: 3px;
+width: 120px;
+border: 1px solid rgba(0,0,0,0.4);
+font-family: 'Open Sans', sans-serif;
+}
+ 
+#menu a {
+font-size: 13px;
+color: #404040;
+display: block;
+margin: 0;
+padding: 0;
+padding: 10px;
+text-decoration: none;
+border-bottom: 1px solid rgba(0,0,0,0.25);
+text-align: center;
+}
+ 
+#menu a:last-child {
+border: none;
+}
+ 
+#menu a:hover {
+background-color: #f8f8f8;
+color: #404040;
+}
+ 
+#menu a.active {
+background-color: #3887be;
+color: #ffffff;
+}
+ 
+#menu a.active:hover {
+background: #3074a4;
+}
 </style>
 </head>
 <body>
- 
+<div id="dialog" title="Arizona Dreaming">
+    <input class="myInput" type="text" />
+    <button class="formSaver">Button 1</button>
+    <button class="formSaver">Button 2</button>
+    <button class="formSaver">Button 3</button>
+</div> 
 <div id='map'></div>
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoicG9vcm5pLWJhZHJpbmF0aCIsImEiOiJjanUwbmYzc3UwdDI3NGRtZ3kzMTltbWZpIn0.SB9PEksVcEwWvZJ9A7J9uA';
@@ -49,6 +105,8 @@ center: [103.829800, 1.358400]
       });
     });
 
+    
+
 function openInJOSM() {
     //Open map location in JOSM
     var bounds = map.getBounds();
@@ -78,7 +136,7 @@ coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
  
 new mapboxgl.Popup()
 .setLngLat(coordinates)
-.setHTML('<p>Click to open in <a href=\'http://127.0.0.1:8111/load_and_zoom?left=/\ target=\"_blank\" title=\"Opens in a new window\">JOSM</a>, </p>')
+.setHTML('<button type="button">Reviewed</button>    <button type="button">Validated</button>')
 .addTo(map);
 openInJOSM();
 });
